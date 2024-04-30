@@ -16,6 +16,32 @@ namespace WebAPItoReturnXML.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
+        [Route("GetJsonObj")]
+        public async Task<IActionResult> GetJson()
+        {
+            var rspObj = new PunchOutSetupResponseDTO
+            {
+                Response = new Response
+                {
+                    Status = new Status
+                    {
+                        Code = 200,
+                        Text = "success",
+                    },
+                    PunchOutSetupResponse = new PunchOutSetupResponse
+                    {
+                        StartPage = new StartPage
+                        {
+                            URL = "https://www. Supplier.com/Account/myaccount.asp?OverrideSID=123",
+                        }
+                    },
+                }
+            };
+
+            return Ok(rspObj);
+        }
+
         [HttpPost]
         [Route("SendXML")]
         public async Task<IActionResult> SendXML([FromBody] XElement xml)
@@ -30,7 +56,7 @@ namespace WebAPItoReturnXML.Controllers
                                             <Status code=""200"" text=""success""/>
                                             <PunchOutSetupResponse>
                                                 <StartPage>
-                                                    <URL>https://www.Supplier.com/Account/myaccount.asp?OverrideSID=7213656</URL>
+                                                    <URL>https://www.Supplier.com/Account/myaccount.asp?OverrideSID=123</URL>
                                                 </StartPage>
                                             </PunchOutSetupResponse>
                                         </Response>
@@ -49,7 +75,7 @@ namespace WebAPItoReturnXML.Controllers
                     {
                         StartPage = new StartPage
                         {
-                            URL = "https://www. Supplier.com/Account/myaccount.asp?OverrideSID=7213656",
+                            URL = "https://www. Supplier.com/Account/myaccount.asp?OverrideSID=123",
                         }
                     },
                 }
