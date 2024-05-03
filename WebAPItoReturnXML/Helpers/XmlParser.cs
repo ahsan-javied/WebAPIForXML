@@ -1,9 +1,8 @@
 ﻿using System.Text;
+using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
-using WebAPItoReturnXML.DTO;
-
-namespace WebAPItoReturnXML
+namespace WebAPItoReturnXML.Helpers
 {
     public static class XmlParser
     {
@@ -30,10 +29,18 @@ namespace WebAPItoReturnXML
         {
             try
             {
-                var stringwriter = new System.IO.StringWriter();
-                var serializer = new XmlSerializer(typeof(T));
-                serializer.Serialize(stringwriter, dataToSerialize);
-                return stringwriter.ToString();
+                var builder = new StringBuilder();
+                var xmlSerializer = new XmlSerializer(typeof(T));
+                using (XmlWriter writer = XmlWriter.Create(builder,
+                    new XmlWriterSettings() { OmitXmlDeclaration = true }))
+                {
+                    xmlSerializer.Serialize(writer, dataToSerialize);
+                }
+
+                
+
+
+                return builder.ToString();
             }
             catch
             {
@@ -53,6 +60,11 @@ namespace WebAPItoReturnXML
             {
                 throw;
             }
+        }
+
+        public static string ResponseXML(string xmlText)
+        {
+            return @"<?xml version=""1.0""?><!DOCTYPE cXML SYSTEM ""http://xml.cxml.org/schemas/cXML/1.1.007/cXML.dtd"">" + xmlText;
         }
     }
 

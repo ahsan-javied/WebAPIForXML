@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Xml.Linq;
 using WebAPItoReturnXML.DTO;
+using WebAPItoReturnXML.Helpers;
 
 namespace WebAPItoReturnXML.Controllers
 {
@@ -61,7 +62,7 @@ namespace WebAPItoReturnXML.Controllers
                                             </PunchOutSetupResponse>
                                         </Response>
                                     </cXML>";
-
+            
             var rspObj = new PunchOutSetupResponseDTO
             {
                 Response = new Response
@@ -83,7 +84,7 @@ namespace WebAPItoReturnXML.Controllers
 
             var responseObj = XmlParser.Serialize<PunchOutSetupResponseDTO>(rspObj);
 
-            return Content(responseObj.ToString(), "application/xml", System.Text.Encoding.UTF8);
+            return Content(XmlParser.ResponseXML(responseObj), "application/xml", System.Text.Encoding.UTF8);
         }
     }
 }
